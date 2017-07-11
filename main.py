@@ -23,10 +23,8 @@ BASE_URL='https://api.instagram.com/v1/'
 BASE_URL = 'https://api.instagram.com/v1'
 
 
+#...............******.............
 #Function for getting the owner info (yourself)
-
-
-
 def self_info():
 
     request_url = BASE_URL + '/users/self/?access_token=%s' % (ACCESS_TOKEN)
@@ -47,11 +45,9 @@ def self_info():
         print 'Received Meta Code is ' +  my_info['meta']['code']
 
 
-
+        
+#...............******.............
 #Function definition to get a user id using Instagram username
-
-
-
 def get_user_id(insta_username):
 
     request_url = BASE_URL + '/users/search?q=%s&access_token=%s' % (insta_username, ACCESS_TOKEN)
@@ -69,10 +65,8 @@ def get_user_id(insta_username):
 
 
 
+#...............******.............
 #Function to get the user information
-
-
-
 def user_info(insta_username):
 
     user_id = get_user_id(insta_username)
@@ -98,10 +92,9 @@ def user_info(insta_username):
             print 'Received Meta Code is ' + user_info['meta']['code']
 
 
+            
+#...............******.............
 #Function to get the recent post of the owner
-
-
-
 def get_own_post():
 
     request_url = BASE_URL+'/users/self/media/recent/?access_token=%s' % (ACCESS_TOKEN)
@@ -123,10 +116,8 @@ def get_own_post():
         print 'Received Meta Code is' + own_media['meta']['code']
 
 
+#...............******.............
 #Function definition to get the recent post of the user
-
-
-
 def get_user_post(insta_username):
 
     user_id = get_user_id(insta_username)
@@ -197,9 +188,9 @@ def get_user_post(insta_username):
             print 'Here is the received Meta Code is' + user_media['meta']['code']
 
 
+
+#...............******.............            
 #Function to get the user's recent post id
-
-
 def get_user_post_id(insta_username):
 
     user_id = get_user_id(insta_username)
@@ -221,9 +212,9 @@ def get_user_post_id(insta_username):
             print 'Here is the received Meta Code is ' + user_media['meta']['code']
 
 
+
+#...............******.............            
 #Function to like a post
-
-
 def like_a_post(insta_username):
 
     media_id = get_user_post_id(insta_username)
@@ -238,10 +229,9 @@ def like_a_post(insta_username):
         print 'Like is Unsuccessful Try Again!'
 
 
+
+#...............******.............        
 #Function to get the comment list from a post
-
-
-
 def get_comment_list(insta_username):
 
     media_id = get_user_post_id(insta_username)
@@ -260,10 +250,9 @@ def get_comment_list(insta_username):
         print 'No media available !'
 
 
+
+#...............******.............        
 #Function to comment on a post
-
-
-
 def comment_on_post(insta_username):
 
     media_id = get_user_post_id(insta_username)
@@ -280,10 +269,9 @@ def comment_on_post(insta_username):
         print 'Unable to comment please try agin !'
 
 
+        
+#...............******.............
 #Function to get the recent media liked by owner
-
-
-
 def own_media_liked():
 
     request_url = BASE_URL+'/users/self/media/recent/?access_token=%s' % (ACCESS_TOKEN)
@@ -297,8 +285,8 @@ def own_media_liked():
     else:
         print 'Meta Code Error!'
 
+#...............******.............
 #Function to Create a pie Chart
-
 def pie_chart():
     query = raw_input('Do you want to plot the data on a pie chart (y/n) ?')
     if query.upper() == 'Y':
@@ -314,10 +302,9 @@ def pie_chart():
         ax1.axis('equal')
         plt.show()
 
+        
+#...............******.............        
 #Function to get the recent media like d by other user
-
-
-
 def user_media_liked(insta_username):
 
     user_id = get_user_id(insta_username)
@@ -335,11 +322,10 @@ def user_media_liked(insta_username):
     else:
         print 'Meta Code Error!'
 
-
+        
+        
+#...............******.............
 #Function to delete negative comments from a post
-
-
-
 def del_negative_comment(insta_username):
 
         media_id = get_user_post_id(insta_username)
@@ -366,11 +352,8 @@ def del_negative_comment(insta_username):
 
 
 
-
+#...............xxxxxxxxxxxxxxxxx.............
 # Here is the main function
-
-
-
 def start():
 
     while True:
