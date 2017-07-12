@@ -1,24 +1,25 @@
 # Importing requests for accessing the web urls
 import requests
 
-# Importing matplotlib, numpy for plotting the pie graph
+# Importing matplotlib( 2D plotting library), numpy(fundamental package for scientific computing ) for plotting the pie graph
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Importing urllib to retrieve the image url
+# Importing urllib( provides a high-level interface for fetching data across the World Wide Web) to retrieve the image url
 import urllib
 
-# Importing TextBlob from textblob to analyze the text
+# Importing TextBlob(library for processing textual data) from textblob to analyze the text
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
+
 #Importing Access token and base url
 global ACCESS_TOKEN,BASE_URL
 ACCESS_TOKEN='3654331653.47c427d.69e9a69163f543d3a2eb0ca47b32dbe7'
 BASE_URL='https://api.instagram.com/v1/'
 
-# Importing the ACCESS TOKEN from keys.py file
-#from keys import ACCESS_TOKEN
-
+'''# Importing the ACCESS TOKEN from access.py file
+   #from access import ACCESS_TOKEN
+'''
 # Defining the BASE URL
 BASE_URL = 'https://api.instagram.com/v1'
 
@@ -28,10 +29,12 @@ BASE_URL = 'https://api.instagram.com/v1'
 def self_info():
 
     request_url = BASE_URL + '/users/self/?access_token=%s' % (ACCESS_TOKEN)
-    print 'GET request url : %s' % request_url
+    print 'GET the request url : %s' % request_url
     my_info = requests.get(request_url).json()
+    
     # Checking if the return meta code is 200
     if my_info['meta']['code'] == 200:
+        
         # If the data of user  exist
         if len(my_info['data']):
             print 'Username : %s' % (my_info['data']['username'])
@@ -40,9 +43,9 @@ def self_info():
             print 'No. of peoples you are following : %s' % (my_info['data']['counts']['follows'])
             print 'No of posts : %s' % (my_info['data']['counts']['media'])
         else:
-            print 'User does not exist'
+            print 'Desired User does not exist'
     else:
-        print 'Received Meta Code is ' +  my_info['meta']['code']
+        print 'The Meta Code Recieved is ' +  my_info['meta']['code']
 
 
         
@@ -83,8 +86,8 @@ def user_info(insta_username):
                 # Printing user info
                 print 'Username : %s' % (user_info['data']['username'])
                 print 'Full Name :%s' % (user_info['data']['full_name'])
-                print 'No of peoples He/She is following : %s ' % (user_info['data']['counts']['followed_by'])
-                print 'No. of peoples following him/her are: %s' % (user_info['data']['counts']['follows'])
+                print 'No of peoples He is following : %s ' % (user_info['data']['counts']['followed_by'])
+                print 'No. of peoples following him are: %s' % (user_info['data']['counts']['follows'])
                 print 'No of posts : %s' % (user_info['data']['counts']['media'])
             else:
                 print 'User have no data!'
@@ -102,18 +105,21 @@ def get_own_post():
     own_media = requests.get(request_url).json()
     if own_media['meta']['code'] == 200:
         if len(own_media['data']):
+            
             # Getting the image name as same as the post id
             image_name = own_media['data'][0]['id'] + '.jpeg'
+            
             # Getting the image url from instagram database
             image_url = own_media['data'][0]['images']['standard_resolution']['url']
+            
             # Using urllib downloading the image from the url and saving it with image_name name
             urllib.urlretrieve(image_url, image_name)
             print 'Your recent post is downloaded'
             return 'Here is your post id '+own_media['data'][0]['id']
         else:
-            return 'Hmm!! looks like you do not have any post'
+            return 'Sorry!! looks like you do not have any recent post'
     else:
-        print 'Received Meta Code is' + own_media['meta']['code']
+        print 'The Meta Code recieved is' + own_media['meta']['code']
 
 
 #...............******.............
@@ -130,19 +136,22 @@ def get_user_post(insta_username):
         user_media = requests.get(request_url).json()
         if user_media['meta']['code'] == 200:
             if len(user_media['data']):
-                # Providing search criteria
+                
+                # Providing a criteria for search 
                 print 'You can refine your search more precisely'
-                print '1. Post with Minimum likes\n' \
-                      '2. Post with Maximum likes\n' \
-                      '3. Post with a certain Caption\n' \
+                print '1. User Post with Minimum likes\n' \
+                      '2. User Post with Maximum likes\n' \
+                      '3. User Post with a certain Caption\n' \
                       '4. Just Recent one'
-                option = int(raw_input('Enter the choice'))
+                option = int(raw_input('Enter your choice'))
+                
                 # Declaring a variable will be used as id of a post
                 i = -1
                 if option == 1:
                     like = ''
                     for x in range(0, len(user_media['data'])):
                         # Comparing likes on a post
+                        
                         if user_media['data'][x]['likes']['count'] < like:
                             like = user_media['data'][x]['likes']['count']
                             i = x
@@ -150,6 +159,7 @@ def get_user_post(insta_username):
                 elif option == 2:
                     like = -1
                     for x in range(0, len(user_media['data'])):
+                        
                         # Comparing likes on a post
                         if user_media['data'][x]['likes']['count'] > like:
                             like = user_media['data'][x]['likes']['count']
@@ -159,12 +169,13 @@ def get_user_post(insta_username):
                     caption = raw_input('Enter the caption')
                     for x in range(0, len(user_media['data'])):
                         text = user_media['data'][x]['caption']['text']
+                        
                         # Checking if the entered caption is present in all the captions
                         if caption.lower() in text.lower():
                             i = x
 
                     if i is -1:
-                        print 'No such caption present'
+                        print 'No such caption is present'
                         exit()
 
                 elif option == 4:
@@ -172,18 +183,21 @@ def get_user_post(insta_username):
                     i = 0
 
                 else:
-                    print 'Wrong choice made'
+                    print 'Wrong choice!! Try again'
                 if i >= 0:
+                    
                     # Getting the image name as same as the post id
                     image_name = user_media['data'][i]['id'] + '.jpeg'
+                    
                     # Getting the url of image from the instagram
                     image_url = user_media['data'][i]['images']['standard_resolution']['url']
+                    
                     # Downloading the image from image_url and saving it with image_name name.
                     urllib.urlretrieve(image_url, image_name)
-                    print 'User\'s recent post is downloaded'
+                    print 'Congratulation\'s sUser\'s recent post is downloaded'
                     return user_media['data'][i]['id']
             else:
-                return 'He/She does not have any post !'
+                return 'User does not have any post !'
         else:
             print 'Here is the received Meta Code is' + user_media['meta']['code']
 
@@ -195,7 +209,7 @@ def get_user_post_id(insta_username):
 
     user_id = get_user_id(insta_username)
     if user_id is None:
-        print 'User does not exit'
+        print 'Desired User does not exit'
         exit()
     else:
         request_url = BASE_URL + '/users/%s/media/recent/?access_token=%s' % (user_id, ACCESS_TOKEN)
@@ -203,10 +217,11 @@ def get_user_post_id(insta_username):
         user_media = requests.get(request_url).json()
         if user_media['meta']['code'] == 200:
             if len(user_media['data']):
+                
                 # Returning the user's recent post id
                 return user_media['data'][0]['id']
             else:
-                print 'User does not have any post!'
+                print 'User does not have any recent post!'
                 exit()
         else:
             print 'Here is the received Meta Code is ' + user_media['meta']['code']
@@ -221,6 +236,7 @@ def like_a_post(insta_username):
     request_url = BASE_URL+'/media/%s/likes' % (media_id)
     print 'POST request url : %s' % request_url
     payload = {"access_token": ACCESS_TOKEN}
+    
     # Setting a like on a user's recent post
     post_a_like = requests.post(request_url, payload).json()
     if post_a_like['meta']['code'] == 200:
@@ -240,14 +256,15 @@ def get_comment_list(insta_username):
     comment = requests.get(request_url).json()
     if comment['meta']['code'] == 200:
         if len(comment['data']):
-            print 'Here are the comments :'
+            print 'Here are the comments Listed below :'
             for x in range(0, len(comment['data'])):
+                
                 # Printing the comment posted on a post
                 print comment['data'][x]['text']
         else:
             print 'There are no comments on this post'
     else:
-        print 'No media available !'
+        print 'No media available ! Try again'
 
 
 
@@ -257,16 +274,17 @@ def comment_on_post(insta_username):
 
     media_id = get_user_post_id(insta_username)
     print 'Comment length should not exceed by 100,You Can put up #tags in all Capital letters\n'
-    comment = raw_input('Add a comment...')
+    comment = raw_input('Put up a comment...')
     request_url = BASE_URL+'/media/%s/comments' % (media_id)
     print 'POST request url : %s' % request_url
     payload = {'access_token': ACCESS_TOKEN, 'text': comment}
+    
     # Posting a comment on post
     post_comment = requests.post(request_url, payload).json()
     if post_comment['meta']['code'] == 200:
-        print 'Commented Successful'
+        print 'Your Comment has Successfully Added'
     else:
-        print 'Unable to comment please try agin !'
+        print 'Unable to post Comment!! try again !'
 
 
         
@@ -281,9 +299,9 @@ def own_media_liked():
         if len(recent_media['data']):
             print 'Post id :'+recent_media['data'][0]['id']
         else:
-            print 'You have not liked any media'
+            print 'You have not liked any recent media'
     else:
-        print 'Meta Code Error!'
+        print 'Meta Code Error! Try again'
 
 #...............******.............
 #Function to Create a pie Chart
