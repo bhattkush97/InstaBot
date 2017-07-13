@@ -287,8 +287,8 @@ def own_media_liked():
 # ...............******.............
 # Function to perform Sentiment Analysis on selected post and print a Pie chart or positive vs negative content.
 
-def perform_sentiment_analysis():
-    unm = get_user_id()
+def perform_sentiment_analysis(insta_username):
+    unm = get_user_id(insta_username)
     id = get_user_id(unm)
     if id != 0:
         pass
@@ -308,9 +308,9 @@ def perform_sentiment_analysis():
             temp['text'] += " " + temp['text']
             data = temp['text']
 
-    #
-    #   SENTIMENT ANALYSIS. DO NOT MESS WITH THE CODE UNDER THIS.
-    #
+            #
+            #   SENTIMENT ANALYSIS. DO NOT MESS WITH THE CODE UNDER THIS.
+            #
 
         blob = TextBlob(data, analyzer=NaiveBayesAnalyzer())
         if blob.sentiment.classification == "neg":
