@@ -8,6 +8,9 @@ import numpy as np
 # Importing urllib( provides a high-level interface for fetching data across the World Wide Web) to retrieve the image url
 import urllib
 
+# Import python -m textblob.download_corpora for NLTK data(Corpora is nothing but a large and structured set of texts)
+
+
 # Importing TextBlob(library for processing textual data) from textblob to analyze the text
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
