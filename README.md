@@ -14,4 +14,5 @@ A Simple instagram Bot written in python which can get...
          '11. Show pie chart for negative and positive comments on a particular's posts '
          '12. Exit'
          
+         Note: "Working on Sentiment analysis of the  of a user's social media presence"
          
